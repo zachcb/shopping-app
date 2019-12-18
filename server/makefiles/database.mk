@@ -13,3 +13,6 @@ database.upgrade: ## Upgrade to latest migration
 
 database.downgrade: ## Downgrade latest migration
 	docker-compose run --rm server python src/manage.py db downgrade
+
+database.addfake: ## Add fake data
+	docker-compose run --rm server python src/manage.py fake
