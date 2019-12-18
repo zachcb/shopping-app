@@ -16,6 +16,12 @@ In the server directory, migrate the database.
     $ make database.upgrade
 ```
 
+Add fake products to database.
+
+```
+    $ make database.addfake
+```
+
 
 ## While Running
 
