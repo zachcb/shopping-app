@@ -1,0 +1,59 @@
+version: "2"
+
+services:
+  client:
+    container_name: shopping-app-client
+    build:
+      context: ./client/
+    ports:
+      - 3000:3000
+    volumes: 
+      - ./client/src:/usr/src/client/src
+      - ./client/public:/usr/src/client/public
+
+  server:
+    container_name: shopping-app-server
+    build:
+      context: ./server/
+    env_file:
+      - ./server/.env
+    volumes:
+      - ./server/:/usr/src/server
+    depends_on:
+      - db
+    ports:
+      - 5500:5500
+
+  dbdata:
+    container_name: shopping-app-dbdata
+    image: busybox
+    volumes:
+      - /var/lib/postgresql/data
+
+  db:
+    container_name: shopping-app-db
+    image: postgres:9.4
+    ports:
+      - 5432:5432
+    volumes_from:
+      - dbdata
+
+  testserver:
+    container_name: shopping-app-testserver
+    env_file: ./server/.env
+    image: python:3.7
+    working_dir: /usr/src/server
+    volumes:
+      - ./server/:/mnt
+    depends_on:
+      - testdb
+    ports:
+      - 5053:5053
+    environment:
+      APPLICATION_PORT: 5053
+      APPLICATION_DB_CONTAINER: testdb
+    command: python -m pytest test/
+
+  testdb:
+    container_name: shopping-app-testdb
+    image: postgres:9.4
