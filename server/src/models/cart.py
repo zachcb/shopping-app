@@ -20,8 +20,8 @@ class Cart(db.Model, BaseModel, metaclass=MetaBaseModel):
     cart_items = db.relationship("CartItem")
     # cart_id = db.Column("cart_id", UUID(as_uuid=True), primary_key=True, default=uuid4)
 
-    def __init__(self, id=None, is_complete=None, cart_items=None):
+    def __init__(self, id=None, is_complete=None):
         """ Create a new Cart """
         self.id = id
         self.is_complete = is_complete
-        self.cart_items = cart_items
+        # self.cart_items = cart_items

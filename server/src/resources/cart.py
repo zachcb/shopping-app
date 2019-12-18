@@ -49,4 +49,4 @@ class CartResource(Resource):
             id=id,
             is_complete=is_complete
         )
-        return jsonify({"cart": cart.json})
+        return CartSerializer.dump(cart)
