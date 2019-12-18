@@ -20,8 +20,11 @@ In the server directory, migrate the database.
 ## While Running
 
 Postgres DB -> *http://localhost:5432*
+
 Python Server -> *http://localhost:5500*
+
 React Client -> *http://localhost:3000*
+
 
 ### Notes
 
