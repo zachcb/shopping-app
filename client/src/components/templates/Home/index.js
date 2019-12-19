@@ -1,5 +1,23 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-const Products = () => <button>Add To Cart</button>;
+import CartSidebar from "../../organisms/CartSidebar";
+import Products from "../../organisms/Products";
+import styles from "./styles.css";
 
-export default Products;
+const HomeTemplate = ({ products, handleUpdateCartItem }) => (
+  <div className={styles.wrapper}>
+    <Products products={products} />
+    <CartSidebar handleUpdateCartItem={handleUpdateCartItem} />
+  </div>
+);
+
+HomeTemplate.propTypes = {
+  cardID: PropTypes.string,
+  cartItems: PropTypes.object,
+  products: PropTypes.array,
+  handleAddCartItem: PropTypes.func,
+  handleUpdateCartItem: PropTypes.func
+};
+
+export default HomeTemplate;

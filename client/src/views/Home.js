@@ -1,28 +1,42 @@
 import React from "react";
 import _ from "lodash";
-import HomeTemplate from "../components/templates/Home";
 
+import HomeTemplate from "../components/templates/Home";
 import requests from "../api/requests";
 
-class Home extends React.Component {
+class HomeView extends React.Component {
   constructor() {
     super();
 
     this.state = {
       cartID: "",
-      cartItems: {}
+      cartItems: {},
+      products: []
     };
+  }
+
+  componentDidMount() {
+    // If does not have cart ID, then create cart.
+    !this.checkHasCartID() && this.createCart();
+    this.getProducts();
   }
 
   createCart = async () => {
     const response = await requests.createCart();
-    const cartID = response.cart.cartID;
+    const { cartID } = response.cart;
 
     this.setState({ cartID });
   };
 
-  checkHasCart = async () => {
+  checkHasCartID = async () => {
     return !!this.state.cartID;
+  };
+
+  getProducts = async () => {
+    const response = await requests.getProducts();
+    const { products } = response;
+
+    this.setState({ products });
   };
 
   handleAddCartItem = async ({ cartID, productID, quantity }) => {
@@ -32,16 +46,6 @@ class Home extends React.Component {
     _.forEach(response.cartItems, ({ id, ...item }) => {
       cartItems[id] = item;
     });
-
-    this.setState({ cartItems });
-  };
-
-  handleRemoveCartItem = async ({ cartItemID }) => {
-    const { cartItems } = this.state;
-    const response = await requests.updateCartItem({ cartItemID, quantity: 0 });
-    const removedID = response.cartItem.id;
-
-    delete cartItems[removedID];
 
     this.setState({ cartItems });
   };
@@ -57,8 +61,18 @@ class Home extends React.Component {
   };
 
   render() {
-    return <HomeTemplate />;
+    const { cartID, cartItems, products } = this.state;
+    const { handleAddCartItem, handleUpdateCartItem } = this;
+    const propsToPass = {
+      cartID,
+      cartItems,
+      products,
+      handleAddCartItem,
+      handleUpdateCartItem
+    };
+
+    return <HomeTemplate {...propsToPass} />;
   }
 }
 
-export default Home;
+export default HomeView;
