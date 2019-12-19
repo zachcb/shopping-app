@@ -8,7 +8,10 @@ const API = "http://localhost:5500/api";
 const createCart = async () => {
   try {
     const response = await fetch(`${API}/carts`, {
-      method: "POST"
+      method: "POST",
+      headers: {
+        contentType: "application/x-www-form-urlencoded"
+      }
     });
 
     return convertObjectToCamel(await response.json());
@@ -28,6 +31,9 @@ const addCartItem = async ({ cartID, productID, quantity = 1 }) => {
   try {
     const response = await fetch(`${API}/cart-items`, {
       method: "POST",
+      headers: {
+        contentType: "application/x-www-form-urlencoded"
+      },
       body: params
     });
 
@@ -48,6 +54,9 @@ const updateCartItem = async ({ cartID, productID, quantity }) => {
   try {
     const response = await fetch(`${API}/cart-items`, {
       method: "PUT",
+      headers: {
+        contentType: "application/x-www-form-urlencoded"
+      },
       body: params
     });
 
@@ -60,7 +69,12 @@ const updateCartItem = async ({ cartID, productID, quantity }) => {
 
 const getProducts = async () => {
   try {
-    const response = await fetch(`${API}/products`);
+    const response = await fetch(`${API}/products`, {
+      method: "GET",
+      headers: {
+        contentType: "application/x-www-form-urlencoded"
+      }
+    });
 
     return convertObjectToCamel(await response.json());
   } catch (error) {
