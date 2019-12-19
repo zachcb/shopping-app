@@ -22,8 +22,7 @@ class HomeView extends React.Component {
   }
 
   createCart = async () => {
-    const response = await requests.createCart();
-    const { cartID } = response.cart;
+    const { cartID } = await requests.createCart();
 
     this.setState({ cartID });
   };
@@ -33,29 +32,28 @@ class HomeView extends React.Component {
   };
 
   getProducts = async () => {
-    const response = await requests.getProducts();
-    const { products } = response;
+    const products = await requests.getProducts();
 
     this.setState({ products });
   };
 
   handleAddCartItem = async ({ cartID, productID, quantity }) => {
-    const response = await requests.addCartItem({ cartID, productID, quantity });
-    const cartItems = {};
+    const { cartItems } = await requests.addCartItem({ cartID, productID, quantity });
+    const newCartItems = {};
 
-    _.forEach(response.cartItems, ({ id, ...item }) => {
-      cartItems[id] = item;
+    _.forEach(cartItems, ({ id, ...item }) => {
+      newCartItems[id] = item;
     });
 
-    this.setState({ cartItems });
+    this.setState({ cartItems: newCartItems });
   };
 
   handleUpdateCartItem = async ({ cartItemID, quantity }) => {
     const { cartItems } = this.state;
-    const response = await requests.updateCartItem({ cartItemID, quantity });
-    const updatedID = response.cartItem.id;
+    const { cartItem } = await requests.updateCartItem({ cartItemID, quantity });
+    const updatedID = cartItem.id;
 
-    cartItems[updatedID] = response.cartItem;
+    cartItems[updatedID] = cartItem;
 
     this.setState({ cartItems });
   };
