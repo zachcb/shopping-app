@@ -1,6 +1,23 @@
+import _ from "lodash";
 import React from "react";
-import styles from "./styles.css";
+import PropTypes from "prop-types";
+import styles from "./styles.module.css";
 
-const CartSidebar = () => <button>Add To Cart</button>;
+import CartItem from "../../molecules/CartItem";
+
+const CartSidebar = ({ cartItems, handleUpdateCartItem }) => (
+  <aside className={styles.wrapper}>
+    {_.isEmpty(cartItems) ? (
+      <span className={styles["empty-message"]}>Empty Cart</span>
+    ) : (
+      _.map(cartItems, item => <CartItem {...item} handleUpdateCartItem={handleUpdateCartItem} />)
+    )}
+  </aside>
+);
+
+CartSidebar.propTypes = {
+  cartItems: PropTypes.object,
+  handleUpdateCartItem: PropTypes.func
+};
 
 export default CartSidebar;
