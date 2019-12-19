@@ -22,7 +22,7 @@ class CartItemResource(Resource):
     def get(id):
         """ Return an cart item key information based on his name """
         cart_item = CartItemRepository.get(id=id)
-        return jsonify({"cart_item": cart_item.json})
+        return jsonify(cart_item.json)
 
     @staticmethod
     @parse_params(
@@ -38,7 +38,7 @@ class CartItemResource(Resource):
             product_id=product_id,
             quantity=quantity
         )
-        return jsonify({"cart_item": cart_item.json})
+        return jsonify(cart_item.json)
 
     @staticmethod
     @parse_params(
@@ -56,4 +56,4 @@ class CartItemResource(Resource):
         else:
             cart_item = repository.delete(id=id)
 
-        return jsonify({"cart_item": cart_item.json})
+        return jsonify(cart_item.json)

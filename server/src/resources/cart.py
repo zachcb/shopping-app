@@ -33,7 +33,7 @@ class CartResource(Resource):
     def post():
         """ Create an cart based on the sent information """
         cart = CartRepository.create()
-        return jsonify({"cart": cart.json})
+        return jsonify(cart.json)
 
     @staticmethod
     @parse_params(
