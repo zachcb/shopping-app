@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 
 import CartSidebar from "../../organisms/CartSidebar";
 import Products from "../../organisms/Products";
-import styles from "./styles.css";
+import styles from "./styles.module.css";
 
-const HomeTemplate = ({ products, handleUpdateCartItem }) => (
+const HomeTemplate = ({ products, handleAddCartItem, handleUpdateCartItem }) => (
   <div className={styles.wrapper}>
-    <Products products={products} />
+    <Products products={products} handleAddCartItem={handleAddCartItem} />
     <CartSidebar handleUpdateCartItem={handleUpdateCartItem} />
   </div>
 );

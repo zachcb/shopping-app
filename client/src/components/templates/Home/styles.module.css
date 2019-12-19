@@ -1,0 +1,11 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  padding: 25px;
+  margin: 0 auto;
+}
+
+.products {
+
+}
