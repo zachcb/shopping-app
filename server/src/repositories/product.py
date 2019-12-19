@@ -9,7 +9,11 @@ class ProductRepository:
     @staticmethod
     def get(id):
         """ Query a product by the id """
-        return Product.query.filter_by(id=id).one()
+
+        if id:
+            return Product.query.filter_by(id=id).one()
+        else:
+            return Product.query.all()
 
     def update(self, id, title, description, price, image_url):
         """ Update a product's products and quantities """
