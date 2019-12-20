@@ -34,4 +34,4 @@ React Client -> *http://localhost:3000*
 
 ### Notes
 
-Everything is able to be hot-reloaded while in the Docker container. Although, if you break something in the Python container it might refresh.
+Everything is able to be hot-reloaded while in the Docker container. Although, if you break something in the Python container it might need to be refreshed.
