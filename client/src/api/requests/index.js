@@ -29,12 +29,11 @@ const addCartItem = async ({ cartID, productID, quantity = 1 }) => {
   });
 
   try {
-    const response = await fetch(`${API}/cart-items`, {
+    const response = await fetch(`${API}/cart-items?${params}`, {
       method: "POST",
       headers: {
         contentType: "application/x-www-form-urlencoded"
-      },
-      body: params
+      }
     });
 
     return convertObjectToCamel(await response.json());
@@ -52,12 +51,31 @@ const updateCartItem = async ({ cartID, productID, quantity }) => {
   });
 
   try {
-    const response = await fetch(`${API}/cart-items`, {
+    const response = await fetch(`${API}/cart-items?${params}`, {
       method: "PUT",
       headers: {
         contentType: "application/x-www-form-urlencoded"
-      },
-      body: params
+      }
+    });
+
+    return convertObjectToCamel(await response.json());
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
+
+const getCart = async ({ cartID }) => {
+  const params = new URLSearchParams({
+    "id": cartID
+  });
+
+  try {
+    const response = await fetch(`${API}/carts?${params}`, {
+      method: "GET",
+      headers: {
+        contentType: "application/x-www-form-urlencoded"
+      }
     });
 
     return convertObjectToCamel(await response.json());
@@ -87,5 +105,6 @@ export default {
   createCart: _.throttle(createCart, 1000),
   addCartItem: _.throttle(addCartItem, 1000),
   updateCartItem: _.throttle(updateCartItem, 500),
-  getProducts: _.throttle(getProducts, 1000)
+  getCart: _.throttle(getCart, 1000),
+  getProducts: _.throttle(getProducts, 1000),
 };
