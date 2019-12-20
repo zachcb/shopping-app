@@ -43,10 +43,9 @@ const addCartItem = async ({ cartID, productID, quantity = 1 }) => {
   }
 };
 
-const updateCartItem = async ({ cartID, productID, quantity }) => {
+const updateCartItem = async ({ cartItemID, quantity }) => {
   const params = new URLSearchParams({
-    "cart-id": cartID,
-    "product-id": productID,
+    "id": cartItemID,
     quantity: quantity
   });
 
@@ -102,9 +101,9 @@ const getProducts = async () => {
 };
 
 export default {
-  createCart: _.throttle(createCart, 1000),
-  addCartItem: _.throttle(addCartItem, 1000),
-  updateCartItem: _.throttle(updateCartItem, 500),
-  getCart: _.throttle(getCart, 1000),
-  getProducts: _.throttle(getProducts, 1000),
+  createCart: _.throttle(createCart, 200),
+  addCartItem: _.throttle(addCartItem, 200),
+  updateCartItem: _.throttle(updateCartItem, 200),
+  getCart: _.throttle(getCart, 200),
+  getProducts: _.throttle(getProducts, 200),
 };
