@@ -13,7 +13,6 @@ const HomeTemplate = ({ products, handleAddCartItem, handleUpdateCartItem }) => 
 );
 
 HomeTemplate.propTypes = {
-  cardID: PropTypes.string,
   cartItems: PropTypes.object,
   products: PropTypes.array,
   handleAddCartItem: PropTypes.func,

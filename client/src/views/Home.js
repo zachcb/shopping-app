@@ -3,28 +3,39 @@ import _ from "lodash";
 
 import HomeTemplate from "../components/templates/Home";
 import requests from "../api/requests";
+import CartItem from "../components/molecules/CartItem";
 
 class HomeView extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      cartID: "",
+      cartID: localStorage.getItem("SHOP_APP_CART_ID") || 0,
       cartItems: {},
       products: []
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     // If does not have cart ID, then create cart.
-    !this.checkHasCartID() && this.createCart();
+    const hasCartID = await this.checkHasCartID()
+    hasCartID  ? this.getCart({ cartID: this.state.cartID }) : this.createCart();
     this.getProducts();
   }
 
   createCart = async () => {
-    const { cartID } = await requests.createCart();
-
+    const { id: cartID } = await requests.createCart();
+    localStorage.setItem("SHOP_APP_CART_ID", cartID)
     this.setState({ cartID });
+  };
+
+  getCart = async ({ cartID }) => {
+    const { cartItems } = await requests.getCart({ cartID });
+    const newCartItems = {};
+
+    _.forEach(cartItems, (item) => newCartItems[item.id] = item);
+    console.log(cartItems, newCartItems)
+    this.setState({ cartItems: newCartItems })
   };
 
   checkHasCartID = async () => {
@@ -37,13 +48,11 @@ class HomeView extends React.Component {
     this.setState({ products });
   };
 
-  handleAddCartItem = async ({ cartID, productID, quantity }) => {
-    const { cartItems } = await requests.addCartItem({ cartID, productID, quantity });
-    const newCartItems = {};
+  handleAddCartItem = async ({ cartID = this.state.cartID, productID, quantity }) => {
+    const { products } = await requests.addCartItem({ cartID, productID, quantity });
+    const newCartItems = _.assign({}, this.state.cartItems);
 
-    _.forEach(cartItems, ({ id, ...item }) => {
-      newCartItems[id] = item;
-    });
+    newCartItems[products.id] = products;
 
     this.setState({ cartItems: newCartItems });
   };
@@ -59,10 +68,9 @@ class HomeView extends React.Component {
   };
 
   render() {
-    const { cartID, cartItems, products } = this.state;
+    const { cartItems, products } = this.state;
     const { handleAddCartItem, handleUpdateCartItem } = this;
     const propsToPass = {
-      cartID,
       cartItems,
       products,
       handleAddCartItem,
