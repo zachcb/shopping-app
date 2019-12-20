@@ -8,8 +8,10 @@ from flask_restful import Resource
 from flask_restful.reqparse import Argument
 
 from repositories import CartItemRepository
+from schemas import CartItemSchema
 from util import parse_params
 
+CartItemSerializer = CartItemSchema()
 
 class CartItemResource(Resource):
     """ Verbs relative to the items """
@@ -22,13 +24,13 @@ class CartItemResource(Resource):
     def get(id):
         """ Return an cart item key information based on his name """
         cart_item = CartItemRepository.get(id=id)
-        return jsonify(cart_item.json)
+        return CartItemSerializer.dump(cart_item)
 
     @staticmethod
     @parse_params(
-        Argument("cart-id", location="args", dest="cart_id", required=True, help="Updates cart item quantity by ID"),
-        Argument("product-id", location="args", dest="product_id", required=True, help="Updates cart item quantity by ID"),
-        Argument("quantity", location="args", required=True, help="Updates cart item quantity by ID")
+        Argument("cart-id", location="args", dest="cart_id", required=True, help="Updates cart item quantity by cart ID"),
+        Argument("product-id", location="args", dest="product_id", required=True, help="Updates cart item quantity by product ID"),
+        Argument("quantity", location="args", required=False, help="Updates cart item quantity by ID")
     )
     @swag_from("../swagger/cart_item/POST.yml")
     def post(cart_id, product_id, quantity):
@@ -38,7 +40,7 @@ class CartItemResource(Resource):
             product_id=product_id,
             quantity=quantity
         )
-        return jsonify(cart_item.json)
+        return CartItemSerializer.dump(cart_item)
 
     @staticmethod
     @parse_params(
@@ -56,4 +58,4 @@ class CartItemResource(Resource):
         else:
             cart_item = repository.delete(id=id)
 
-        return jsonify(cart_item.json)
+        return CartItemSerializer.dump(cart_item)
