@@ -8,7 +8,7 @@ import styles from "./styles.module.css";
 const Products = ({ products, handleAddCartItem }) => (
   <div className={styles.wrapper}>
     {_.map(products, product => (
-      <ProductCard key={product.title} handleAddCartItem={handleAddCartItem} {...product} />
+      <ProductCard key={product.title} handleClick={handleAddCartItem} {...product} />
     ))}
   </div>
 );
