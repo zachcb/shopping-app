@@ -3,7 +3,6 @@ import _ from "lodash";
 
 import HomeTemplate from "../components/templates/Home";
 import requests from "../api/requests";
-import CartItem from "../components/molecules/CartItem";
 
 class HomeView extends React.Component {
   constructor() {
@@ -34,7 +33,7 @@ class HomeView extends React.Component {
     const newCartItems = {};
 
     _.forEach(cartItems, (item) => newCartItems[item.id] = item);
-    console.log(cartItems, newCartItems)
+
     this.setState({ cartItems: newCartItems })
   };
 
@@ -49,20 +48,19 @@ class HomeView extends React.Component {
   };
 
   handleAddCartItem = async ({ cartID = this.state.cartID, productID, quantity }) => {
-    const { products } = await requests.addCartItem({ cartID, productID, quantity });
+    const cartItem = await requests.addCartItem({ cartID, productID, quantity });
     const newCartItems = _.assign({}, this.state.cartItems);
 
-    newCartItems[products.id] = products;
+    newCartItems[cartItem.products.id] = cartItem;
 
     this.setState({ cartItems: newCartItems });
   };
 
   handleUpdateCartItem = async ({ cartItemID, quantity }) => {
     const { cartItems } = this.state;
-    const { cartItem } = await requests.updateCartItem({ cartItemID, quantity });
-    const updatedID = cartItem.id;
+    const updatedCartItem = await requests.updateCartItem({ cartItemID, quantity });
 
-    cartItems[updatedID] = cartItem;
+    cartItems[updatedCartItem.id] = updatedCartItem;
 
     this.setState({ cartItems });
   };
