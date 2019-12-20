@@ -6,7 +6,7 @@ import styles from "./styles.module.css";
 const ProductCard = ({ id, title, description, imageUrl, handleClick }) => (
   <div className={styles.wrapper} onClick={() => handleClick({ productID: id })}>
     <div className={styles["img-container"]}>
-      <img src={imageUrl}></img>
+      <img src={imageUrl} alt="product"></img>
     </div>
     <div className={styles.content}>
       <header>{title}</header>

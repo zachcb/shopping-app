@@ -1,11 +1,13 @@
 .wrapper {
+  overflow: hidden;
   display: flex;
   width: 100%;
-  max-width: 1200px;
-  padding: 25px;
+  max-width: 1400px;
+  padding: 15px;
   margin: 0 auto;
 }
 
 .products {
-
+  overflow-y: scroll;
+  height: 100%;
 }

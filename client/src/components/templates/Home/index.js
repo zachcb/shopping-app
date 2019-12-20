@@ -5,10 +5,10 @@ import CartSidebar from "../../organisms/CartSidebar";
 import Products from "../../organisms/Products";
 import styles from "./styles.module.css";
 
-const HomeTemplate = ({ products, handleAddCartItem, handleUpdateCartItem }) => (
+const HomeTemplate = ({ cartItems, products, handleAddCartItem, handleUpdateCartItem }) => (
   <div className={styles.wrapper}>
-    <Products products={products} handleAddCartItem={handleAddCartItem} />
-    <CartSidebar handleUpdateCartItem={handleUpdateCartItem} />
+    <Products className={styles.products} products={products} handleAddCartItem={handleAddCartItem} />
+    <CartSidebar cartItems={cartItems} handleUpdateCartItem={handleUpdateCartItem} />
   </div>
 );
 
